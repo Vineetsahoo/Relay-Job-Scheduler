@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
+import { useAuth, DEMO_CREDENTIALS } from '../AuthContext';
 import { RelayLogo } from '../components/RelayLogo';
 
 export function AuthPage() {
@@ -10,8 +10,13 @@ export function AuthPage() {
   const [password, setPassword] = useState('');
   const [orgName, setOrgName] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const { login, register, loading } = useAuth();
+  const { login, loginAsDemo, register, loading } = useAuth();
   const navigate = useNavigate();
+
+  function handleDemoLogin() {
+    loginAsDemo();
+    navigate('/');
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -53,6 +58,62 @@ export function AuthPage() {
           <div style={{ fontSize: 11.5, color: 'var(--text-faint)', fontWeight: 400, marginTop: 6, paddingLeft: 2 }}>
             Distributed job scheduler
           </div>
+        </div>
+
+        {/* Demo credentials banner */}
+        <div style={{
+          background: 'rgba(168,85,247,0.08)',
+          border: '1px solid rgba(168,85,247,0.25)',
+          borderRadius: 10,
+          padding: '12px 14px',
+          marginBottom: 20,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12,
+        }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>
+              Demo access
+            </div>
+            <div style={{ fontSize: 12.5, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+              <span style={{ opacity: 0.7 }}>Email:</span>{' '}
+              <code style={{ fontSize: 12, color: 'var(--text-primary)', background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 4 }}>
+                {DEMO_CREDENTIALS.email}
+              </code>
+              <br />
+              <span style={{ opacity: 0.7 }}>Password:</span>{' '}
+              <code style={{ fontSize: 12, color: 'var(--text-primary)', background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 4 }}>
+                {DEMO_CREDENTIALS.password}
+              </code>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={handleDemoLogin}
+            disabled={loading}
+            style={{
+              flexShrink: 0,
+              padding: '8px 14px',
+              fontSize: 12.5,
+              fontWeight: 600,
+              borderRadius: 8,
+              background: 'linear-gradient(135deg, rgba(168,85,247,0.4) 0%, rgba(168,85,247,0.2) 100%)',
+              border: '1px solid rgba(168,85,247,0.5)',
+              color: 'var(--text-primary)',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'opacity 0.15s',
+            }}
+          >
+            {loading ? '…' : '⚡ Use admin'}
+          </button>
+        </div>
+
+        {/* Divider */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+          <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.07)' }} />
+          <span style={{ fontSize: 11.5, color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>or sign in manually</span>
+          <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.07)' }} />
         </div>
 
         {/* Mode toggle */}

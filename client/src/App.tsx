@@ -10,6 +10,8 @@ import { QueueDetailPage } from './pages/QueueDetail';
 import { JobDetailPage } from './pages/JobDetail';
 import { WorkersPage } from './pages/Workers';
 import { DeadLetterPage } from './pages/DeadLetter';
+import { ChartsPage } from './pages/Charts';
+import { SettingsPage } from './pages/Settings';
 
 function RequireAuth({ children }: { children: ReactElement }) {
   const { user } = useAuth();
@@ -36,6 +38,8 @@ function AppRoutes() {
                   <Route path="/jobs/:id" element={<JobDetailPage />} />
                   <Route path="/workers" element={<WorkersPage />} />
                   <Route path="/dead-letter" element={<DeadLetterPage />} />
+                  <Route path="/charts" element={<ChartsPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
                 </Routes>
               </Layout>
             </ProjectProvider>

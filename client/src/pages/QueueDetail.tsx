@@ -61,13 +61,13 @@ export function QueueDetailPage() {
   if (!queue) return <div className="empty-state">Loading…</div>;
 
   return (
-    <div>
+    <div className="fade-in">
       <div className="topbar">
         <div>
           <h1 className="page-title">{queue.name}</h1>
           <div className="page-subtitle">
             priority {queue.priority} · concurrency {queue.concurrency_limit} · {queue.strategy ?? 'fixed'} retries
-            {queue.is_paused && <span style={{ color: 'var(--accent)' }}> · paused</span>}
+            {queue.is_paused && <span style={{ color: 'var(--warning)', marginLeft: 6 }}>· paused</span>}
           </div>
         </div>
         <div className="row" style={{ flex: 'none', gap: 8 }}>

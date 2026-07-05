@@ -52,11 +52,24 @@ export function WorkersPage() {
   }
 
   return (
-    <div>
+    <div className="fade-in">
       <div className="topbar">
         <div>
+          <div className="page-greeting">Monitor your compute layer</div>
           <h1 className="page-title">Workers</h1>
           <div className="page-subtitle">All worker processes that have ever registered, across every project</div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 12px', borderRadius: 'var(--radius-pill)',
+            background: 'var(--success-dim)', border: '1px solid rgba(34,211,165,0.2)',
+          }}>
+            <span className="dot dot-success" style={{ margin: 0 }}/>
+            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--success)' }}>
+              {workers.filter(w => w.status !== 'offline' && !w.is_stale).length} online
+            </span>
+          </div>
         </div>
       </div>
 
@@ -65,7 +78,7 @@ export function WorkersPage() {
           No workers have registered yet. Start one with <code className="mono">npm run worker</code> in the server directory.
         </div>
       ) : (
-        <div className="panel" style={{ padding: 0 }}>
+        <div className="panel" style={{ padding: 0, overflow: 'hidden' }}>
           <table>
             <thead>
               <tr>
@@ -83,11 +96,24 @@ export function WorkersPage() {
                 <tr key={w.id}>
                   <td className="mono" style={{ fontWeight: 600 }}>{w.name}</td>
                   <td>
-                    <SignalDot tone={tone(w)} />
-                    {w.status === 'offline' ? 'Offline' : w.is_stale ? 'Unresponsive' : w.status === 'draining' ? 'Draining' : 'Online'}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <SignalDot tone={tone(w)} />
+                      <span style={{ fontSize: 13, fontWeight: 500 }}>
+                        {w.status === 'offline' ? 'Offline' : w.is_stale ? 'Unresponsive' : w.status === 'draining' ? 'Draining' : 'Online'}
+                      </span>
+                    </div>
                   </td>
-                  <td className="text-secondary mono">{w.hostname}</td>
-                  <td className="mono">{w.active_job_count} / {w.concurrency}</td>
+                  <td className="text-secondary mono" style={{ fontSize: 12.5 }}>{w.hostname}</td>
+                  <td>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span className="mono" style={{ fontWeight: 600 }}>{w.active_job_count}/{w.concurrency}</span>
+                      <div style={{ flex: 1, maxWidth: 50 }}>
+                        <div className="progress-track">
+                          <div className="progress-fill" style={{ width: `${(w.active_job_count / Math.max(w.concurrency, 1)) * 100}%` }}/>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
                   <td><Sparkline workerId={w.id} /></td>
                   <td className="text-secondary">{relativeTime(w.started_at)}</td>
                   <td className="text-secondary">{relativeTime(w.last_heartbeat_at)}</td>

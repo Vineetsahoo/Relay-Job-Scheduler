@@ -35,12 +35,17 @@ export function JobDetailPage() {
   if (!job) return <div className="empty-state">Loading…</div>;
 
   return (
-    <div>
+    <div className="fade-in">
       <div className="topbar">
         <div>
-          <button className="btn btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: 12 }}>← Back</button>
-          <h1 className="page-title mono" style={{ fontSize: 17 }}>{job.type}</h1>
-          <div className="page-subtitle mono">{job.id}</div>
+          <button className="btn btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: 10, gap: 4 }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            Back
+          </button>
+          <h1 className="page-title mono" style={{ fontSize: 18 }}>{job.type}</h1>
+          <div className="page-subtitle mono" style={{ fontSize: 11.5 }}>{job.id}</div>
         </div>
         <div className="row" style={{ flex: 'none', gap: 8 }}>
           {['failed', 'dead_letter', 'cancelled'].includes(job.status) && (

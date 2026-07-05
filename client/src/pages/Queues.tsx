@@ -30,16 +30,22 @@ export function QueuesPage() {
   }
 
   return (
-    <div>
+    <div className="fade-in">
       <div className="topbar">
         <div>
+          <div className="page-greeting">Manage your job queues</div>
           <h1 className="page-title">Queues</h1>
           <div className="page-subtitle">{activeProject ? activeProject.name : 'Select a project'}</div>
         </div>
         <div className="row" style={{ flex: 'none', gap: 8 }}>
           <ProjectSwitcher />
           {activeProject && (
-            <button className="btn btn-primary" onClick={() => setShowCreate(true)}>+ New queue</button>
+            <button className="btn btn-primary" onClick={() => setShowCreate(true)}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              New queue
+            </button>
           )}
         </div>
       </div>

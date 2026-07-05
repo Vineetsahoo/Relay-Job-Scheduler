@@ -68,10 +68,11 @@ export function DeadLetterPage() {
   const selectedQueue = queues.find((q) => q.id === queueId);
 
   return (
-    <div>
+    <div className="fade-in">
       {/* ── Top bar ── */}
       <div className="topbar">
         <div>
+          <div className="page-greeting">Jobs that exhausted all retry attempts</div>
           <h1 className="page-title">Dead Letter Queue</h1>
           <p className="page-subtitle">
             Jobs that failed every retry attempt and need manual intervention

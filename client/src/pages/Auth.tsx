@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import { RelayLogo } from '../components/RelayLogo';
 
 export function AuthPage() {
   const [mode, setMode] = useState<'login' | 'register'>('login');
@@ -16,11 +17,9 @@ export function AuthPage() {
     e.preventDefault();
     setError(null);
     try {
-      if (mode === 'login') {
-        await login(email, password);
-      } else {
-        await register(name, email, password, orgName);
-      }
+      mode === 'login'
+        ? await login(email, password)
+        : await register(name, email, password, orgName);
       navigate('/');
     } catch (err: any) {
       setError(err.message);
@@ -29,20 +28,35 @@ export function AuthPage() {
 
   return (
     <div className="auth-screen">
-      <div className="auth-card">
-        {/* Brand */}
-        <div className="auth-brand">
-          <div className="brand" style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'white' }} />
-          </div>
-          <div>
-            <div style={{ fontWeight: 800, fontSize: 18, color: 'var(--text-primary)' }}>Relay</div>
-            <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500 }}>Distributed job scheduler</div>
+      {/* Decorative background orbs */}
+      <div style={{
+        position: 'fixed', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0,
+      }}>
+        <div style={{
+          position: 'absolute', top: '-20%', left: '50%', transform: 'translateX(-50%)',
+          width: 700, height: 500,
+          background: 'radial-gradient(ellipse, rgba(168,85,247,0.15) 0%, transparent 70%)',
+          borderRadius: '50%',
+        }}/>
+        <div style={{
+          position: 'absolute', bottom: '-10%', right: '10%',
+          width: 400, height: 400,
+          background: 'radial-gradient(ellipse, rgba(236,72,153,0.08) 0%, transparent 70%)',
+          borderRadius: '50%',
+        }}/>
+      </div>
+
+      <div className="auth-card" style={{ position: 'relative', zIndex: 1 }}>
+        {/* Brand — custom Relay logo with wordmark */}
+        <div style={{ marginBottom: 30 }}>
+          <RelayLogo size={44} wordmark />
+          <div style={{ fontSize: 11.5, color: 'var(--text-faint)', fontWeight: 400, marginTop: 6, paddingLeft: 2 }}>
+            Distributed job scheduler
           </div>
         </div>
 
-        {/* Tab switcher */}
-        <div className="pill-toggle" style={{ marginBottom: 24, width: '100%', justifyContent: 'stretch' }}>
+        {/* Mode toggle */}
+        <div className="pill-toggle" style={{ marginBottom: 24, width: '100%' }}>
           <button
             style={{ flex: 1, textAlign: 'center' }}
             className={mode === 'login' ? 'active' : ''}
@@ -64,24 +78,40 @@ export function AuthPage() {
             <>
               <div className="field">
                 <label>Your name</label>
-                <input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Ada Lovelace" />
+                <input
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  required
+                  placeholder="Ada Lovelace"
+                />
               </div>
               <div className="field">
-                <label>Organization name</label>
-                <input value={orgName} onChange={(e) => setOrgName(e.target.value)} required placeholder="Acme Inc." />
+                <label>Organization</label>
+                <input
+                  value={orgName}
+                  onChange={e => setOrgName(e.target.value)}
+                  required
+                  placeholder="Acme Inc."
+                />
               </div>
             </>
           )}
           <div className="field">
             <label>Email address</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" />
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+              placeholder="you@example.com"
+            />
           </div>
           <div className="field">
             <label>Password</label>
             <input
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
               required
               minLength={8}
               placeholder="Min. 8 characters"
@@ -93,14 +123,14 @@ export function AuthPage() {
           <button
             type="submit"
             className="btn btn-primary"
-            style={{ width: '100%', marginTop: 8, padding: '12px', fontSize: 15 }}
+            style={{ width: '100%', marginTop: 10, padding: '12px', fontSize: 14, borderRadius: 10 }}
             disabled={loading}
           >
             {loading ? 'Please wait…' : mode === 'login' ? 'Sign in' : 'Create account'}
           </button>
         </form>
 
-        <div className="auth-toggle">
+        <div className="auth-toggle" style={{ justifyContent: 'center', marginTop: 22 }}>
           {mode === 'login' ? (
             <>Don't have an account?&nbsp;<button onClick={() => setMode('register')}>Create one</button></>
           ) : (

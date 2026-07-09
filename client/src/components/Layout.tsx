@@ -149,32 +149,32 @@ export function Layout({ children }: { children: ReactNode }) {
               <circle cx="11" cy="11" r="8"/>
               <line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
-            <input placeholder="Type to search…" />
+            <input placeholder="Search jobs, queues…" />
           </div>
-
-          {/* AI Assistant — with mic icon */}
-          <button className="tb-ai">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-              <line x1="12" y1="19" x2="12" y2="23"/>
-              <line x1="8" y1="23" x2="16" y2="23"/>
-            </svg>
-            AI Assistant
-          </button>
 
           <div className="tb-spacer" />
 
-          {/* Dark Mode toggle pill */}
-          <div className="tb-darkmode">
-            Dark Mode
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
+          {/* Status pill */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 12px',
+            borderRadius: 'var(--r-pill)',
+            background: 'rgba(32,201,151,0.08)',
+            border: '1px solid rgba(32,201,151,0.2)',
+            fontSize: 12, fontWeight: 600, color: 'var(--success)',
+            flexShrink: 0,
+          }}>
+            <span style={{
+              width: 7, height: 7, borderRadius: '50%',
+              background: 'var(--success)',
+              boxShadow: '0 0 6px rgba(32,201,151,0.7)',
+              display: 'inline-block', flexShrink: 0,
+            }}/>
+            System online
           </div>
 
           {/* Notification bell */}
-          <button className="ib">
+          <button className="ib" title="Notifications">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
@@ -182,13 +182,23 @@ export function Layout({ children }: { children: ReactNode }) {
             <span className="notif-dot" />
           </button>
 
-          {/* User avatar */}
-          <div
-            className="avatar"
-            style={{ width: 34, height: 34, fontSize: 13 }}
-            title={user?.name ?? 'Profile'}
-          >
-            {user?.name?.charAt(0)?.toUpperCase() ?? 'U'}
+          {/* User avatar + name */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div
+              className="avatar"
+              style={{ width: 32, height: 32, fontSize: 12 }}
+              title={user?.name ?? 'Profile'}
+            >
+              {user?.name?.charAt(0)?.toUpperCase() ?? 'U'}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.2 }}>
+              <span style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--text-primary)' }}>
+                {user?.name ?? 'User'}
+              </span>
+              <span style={{ fontSize: 10.5, color: 'var(--text-faint)' }}>
+                {(user as any)?.isDemo ? 'Demo admin' : 'Admin'}
+              </span>
+            </div>
           </div>
         </header>
 

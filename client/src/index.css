@@ -798,3 +798,28 @@ tr.clickable:hover td { background: var(--bg-card-hover); }
 .fade-in-4 { animation: fade-up 0.28s 0.20s ease both; }
 
 @keyframes pulse { 0%,100%{opacity:1;}50%{opacity:0.35;} }
+
+/* ═══════════════════════════════════════════════════════════
+   AUTH SPLIT LAYOUT
+   ═══════════════════════════════════════════════════════════ */
+
+/* Subtle dot-grid texture for the left auth panel */
+.auth-left-panel {
+  background-image:
+    radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Glowing ring behind the logo on the left panel */
+.auth-left-logo-ring {
+  position: absolute;
+  top: 46px; left: 42px;
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(155,89,245,0.35) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Topbar user row hover */
+.topbar-user-row { cursor: default; border-radius: var(--r); padding: 4px 6px; transition: background 0.15s; }
+.topbar-user-row:hover { background: rgba(255,255,255,0.04); }
